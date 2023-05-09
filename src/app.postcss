@@ -1,0 +1,65 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap");
+:root {
+  --background: #0f0f0f;
+  --color: rgb(214, 214, 214);
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  background-color: var(--background);
+  color: var(--color);
+}
+button {
+  cursor: pointer;
+  outline: none;
+}
+input {
+  z-index: 3;
+  outline: none;
+  width: 70%;
+  text-indent: 30px;
+  border: none;
+  color: white;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #1c1c1c;
+  transition: 0.3s;
+}
+input:hover {
+  transition: 0.3s;
+  background-color: #2c2c2c;
+}
+input:focus {
+  transition: 0.3s;
+  outline: none;
+  background-color: #2c2c2c;
+}
+
+button {
+  z-index: 4;
+  border: 1px solid rgb(74, 74, 74);
+  border-radius: 5px;
+  height: 40px;
+  transition: 0.3s;
+}
+button:hover {
+  border: none;
+  color: var(--background);
+  background-color: white;
+  transition: 0.3s;
+}
+button:focus {
+  border: none;
+  color: var(--background);
+  background-color: white;
+  transition: 0.3s;
+}
