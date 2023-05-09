@@ -48,17 +48,42 @@ type Article = {
   title: string;
   text: string;
   img: string;
+  date: Date;
+  topic: string;
+  desc: string;
 };
 
 type Preview = {
   title: string;
   preview: string;
   img: string;
+  date: Date;
+  topic: string;
 };
 
 export type { Article, Preview, User };
 
 const db = {
+  queryPreviews: async () => {
+    let articulosNuevos: Preview[] = [];
+    const doc: string = "articles";
+    const querySnapshot = await getDocs(collection(database, doc));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data() as Preview;
+      articulosNuevos = [...articulosNuevos, data];
+    });
+    console.log(articulosNuevos);
+    return articulosNuevos;
+  },
+  queryArticle: async (article: string) => {
+    const docRef = doc(database, article, "data");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as Article;
+    } else {
+      console.error("No such document!");
+    }
+  },
   getUserPassword: async (user: string): Promise<string> => {
     user = user.split("@")[0];
     let usr: User = { email: "", user: "", pass: "" };
@@ -116,17 +141,6 @@ const db = {
       .catch((e) => {
         console.error(e);
       });
-  },
-  queryPreviews: async () => {
-    let articulosNuevos: Preview[] = [];
-    const doc: string = "articles";
-    const querySnapshot = await getDocs(collection(database, doc));
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as Preview;
-      articulosNuevos = [...articulosNuevos, data];
-    });
-    console.log(articulosNuevos);
-    return articulosNuevos;
   },
 };
 export { auth, db, database };
