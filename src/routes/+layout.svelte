@@ -3,11 +3,19 @@
   import "../app.postcss";
   import Icon from "@iconify/svelte";
   import type { Preview } from "../lib/server/firebase";
+  import { enhance } from "$app/forms";
+  import { onMount } from "svelte";
+  import { writable } from "svelte/store";
 
   export let data;
 
   let input: boolean = false;
   let busqueda: string = "";
+
+  onMount(async () => {
+    let localData = localStorage.getItem("create");
+    const data = writable(localData ? JSON.parse(localData) : []);
+  });
 
   const setInput = (): void => {
     input = !input;
@@ -21,13 +29,12 @@
 <div class="navbar w-full flex items-center justify-center gap-8">
   <a href="/home" class="font-bold text-3xl">My blog</a>
   <hr />
-  <hr />
 
   <a class:ocultar={input === true} href="/">News</a>
   <a class:ocultar={input === true} href="/">Linux</a>
   <a class:ocultar={input === true} href="/">How to</a>
+  <a class:ocultar={input === true} href="/">Relleno</a>
   <a class:ocultar={input === true} href="/">About</a>
-  <hr />
   <hr />
 
   {#if !input}
@@ -77,7 +84,15 @@
     >
   {/if}
   <hr />
-  <button>Contact me!</button>
+  {#if data.user === "" || data.user === undefined}
+    <button class="flex items-center justify-center"
+      ><a style="border: none;" href="/login">Log in</a></button
+    >
+  {:else}
+    <button class="flex items-center justify-center"
+      ><a style="border: none;" href="/create">Create</a></button
+    >
+  {/if}
 </div>
 <slot />
 
@@ -87,6 +102,7 @@
     position: fixed;
     border-bottom: 1px solid #353535;
     height: 55px;
+    background-color: #0f0f0f;
     z-index: 8;
   }
   .resultados {
@@ -159,14 +175,13 @@
     margin-left: 300px;
   }
   button {
-    width: 120px;
+    width: 100px;
   }
   a {
     z-index: 5;
     height: 55px;
     display: flex;
     align-items: center;
-    transition: 0.3s;
   }
   a:hover {
     border-bottom: 1px solid white;

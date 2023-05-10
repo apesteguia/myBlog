@@ -19,7 +19,7 @@ import {
   updateDoc,
   getDocs,
 } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { error } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 
@@ -72,7 +72,6 @@ const db = {
       const data = doc.data() as Preview;
       articulosNuevos = [...articulosNuevos, data];
     });
-    console.log(articulosNuevos);
     return articulosNuevos;
   },
   queryArticle: async (article: string) => {
@@ -84,6 +83,7 @@ const db = {
       console.error("No such document!");
     }
   },
+  logInGoogle: async () => {},
   getUserPassword: async (user: string): Promise<string> => {
     user = user.split("@")[0];
     let usr: User = { email: "", user: "", pass: "" };
