@@ -77,7 +77,7 @@
                   <p
                     class="text-sm ml-5 mt-2 capitalize break-all break-words mr-10"
                   >
-                    {@html d.preview.substring(0, 180) +
+                    {@html d.preview.substring(0, 120) +
                       `<span>&nbsp; &nbsp;&nbsp;</span><span class="font-bold hover:underline">Read more...</span>`}
                   </p>
                 </div>
@@ -87,7 +87,7 @@
                     class="text-sm ml-5 mt-2 capitalize break-all break-words mr-10"
                   >
                     {@html d.preview +
-                      `<span></span><span class="font-bold hover:underline">Read more...</span>`}
+                      `<span>&nbsp;&nbsp;</span><span class="font-bold hover:underline">Read more...</span>`}
                   </p>
                 </div>
               {/if}
@@ -107,6 +107,7 @@
     position: absolute;
     width: 100%;
     display: flex;
+    z-index: 7;
     flex-direction: column;
     align-items: center;
   }
@@ -166,6 +167,7 @@
   .article {
     background-color: #1c1c1c;
     margin-top: 30px;
+    z-index: 9;
     width: 800px;
     height: 180px;
     border-radius: 5px;

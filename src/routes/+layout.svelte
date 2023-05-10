@@ -43,6 +43,7 @@
       placeholder="Find articles"
     />
     {#if busqueda !== ""}
+      <button class="cubrir" on:click={setInput} />
       <button class="icon close" on:click={resetearBusqueda}
         ><Icon icon="material-symbols:close" /></button
       >
@@ -103,6 +104,22 @@
     cursor: none;
     visibility: hidden;
   }
+  .cubrir {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    border: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    height: 100%;
+  }
+  .cubrir:hover {
+    background-color: transparent;
+  }
+  .cubrir:focus {
+    background-color: transparent;
+  }
   .res {
     height: 80px;
     display: flex;
@@ -145,6 +162,7 @@
     width: 120px;
   }
   a {
+    z-index: 5;
     height: 55px;
     display: flex;
     align-items: center;
