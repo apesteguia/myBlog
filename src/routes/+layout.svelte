@@ -26,75 +26,77 @@
   };
 </script>
 
-<div class="navbar w-full flex items-center justify-center gap-8">
-  <a href="/home" class="font-bold text-3xl">My blog</a>
-  <hr />
+<div class="main">
+  <div class="navbar w-full flex items-center justify-center gap-8">
+    <a href="/home" class="font-bold text-3xl">My blog</a>
+    <hr />
 
-  <a class:ocultar={input === true} href="/">News</a>
-  <a class:ocultar={input === true} href="/">Linux</a>
-  <a class:ocultar={input === true} href="/">How to</a>
-  <a class:ocultar={input === true} href="/">Relleno</a>
-  <a class:ocultar={input === true} href="/">About</a>
-  <hr />
+    <a class:ocultar={input === true} href="/">News</a>
+    <a class:ocultar={input === true} href="/">Linux</a>
+    <a class:ocultar={input === true} href="/">How to</a>
+    <a class:ocultar={input === true} href="/">Relleno</a>
+    <a class:ocultar={input === true} href="/">About</a>
+    <hr />
 
-  {#if !input}
-    <button class="icon" on:click={setInput}>
-      <Icon icon="material-symbols:search-rounded" />
-    </button>
-  {:else}
-    <!-- svelte-ignore a11y-autofocus -->
-    <input
-      bind:value={busqueda}
-      autofocus
-      type="text"
-      placeholder="Find articles"
-    />
-    {#if busqueda !== ""}
-      <button class="cubrir" on:click={setInput} />
-      <button class="icon close" on:click={resetearBusqueda}
+    {#if !input}
+      <button class="icon" on:click={setInput}>
+        <Icon icon="material-symbols:search-rounded" />
+      </button>
+    {:else}
+      <!-- svelte-ignore a11y-autofocus -->
+      <input
+        bind:value={busqueda}
+        autofocus
+        type="text"
+        placeholder="Find articles"
+      />
+      {#if busqueda !== ""}
+        <button class="cubrir" on:click={setInput} />
+        <button class="icon close" on:click={resetearBusqueda}
+          ><Icon icon="material-symbols:close" /></button
+        >
+        <div class="resultados">
+          {#each data.articlesPreview.filter((a) => a.title
+                .replace(/-/g, " ")
+                .includes(busqueda) || a.preview.includes(busqueda)) as d}
+            <a on:click={setInput} href={"/articles/" + d.title} class="res">
+              <p class=" text-lg capitalize ml-2">
+                {@html d.title
+                  .replace(/-/g, " ")
+                  .replace(
+                    new RegExp(busqueda, "gi"),
+                    (match) => `<b>${match}</b>`
+                  )}
+              </p>
+              <p class="ml-5">
+                {@html d.preview
+                  .replace(
+                    new RegExp(busqueda, "gi"),
+                    (match) => `<b>${match}</b>`
+                  )
+                  .substring(0, 40)}
+              </p>
+            </a>
+          {/each}
+        </div>
+      {/if}
+      <button class="icon" on:click={setInput}
         ><Icon icon="material-symbols:close" /></button
       >
-      <div class="resultados">
-        {#each data.articlesPreview.filter((a) => a.title
-              .replace(/-/g, " ")
-              .includes(busqueda) || a.preview.includes(busqueda)) as d}
-          <a on:click={setInput} href={"/articles/" + d.title} class="res">
-            <p class=" text-lg capitalize ml-2">
-              {@html d.title
-                .replace(/-/g, " ")
-                .replace(
-                  new RegExp(busqueda, "gi"),
-                  (match) => `<b>${match}</b>`
-                )}
-            </p>
-            <p class="ml-5">
-              {@html d.preview
-                .replace(
-                  new RegExp(busqueda, "gi"),
-                  (match) => `<b>${match}</b>`
-                )
-                .substring(0, 40)}
-            </p>
-          </a>
-        {/each}
-      </div>
     {/if}
-    <button class="icon" on:click={setInput}
-      ><Icon icon="material-symbols:close" /></button
-    >
-  {/if}
-  <hr />
-  {#if data.user === "" || data.user === undefined}
-    <button class="flex items-center justify-center"
-      ><a style="border: none;" href="/login">Log in</a></button
-    >
-  {:else}
-    <button class="flex items-center justify-center"
-      ><a style="border: none;" href="/create">Create</a></button
-    >
-  {/if}
+    <hr />
+    {#if data.user === "" || data.user === undefined}
+      <button class="flex items-center justify-center"
+        ><a style="border: none;" href="/login">Log in</a></button
+      >
+    {:else}
+      <button class="flex items-center justify-center"
+        ><a style="border: none;" href="/create">Create</a></button
+      >
+    {/if}
+  </div>
+  <slot />
 </div>
-<slot />
 
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap");

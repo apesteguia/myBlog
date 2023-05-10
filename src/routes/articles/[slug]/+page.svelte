@@ -2,16 +2,22 @@
   import type { Article, Preview } from "../../../lib/server/firebase";
   import Icon from "@iconify/svelte";
   export let data;
-  let colors = [
-    "#72ddf7",
-    "#8093f1",
-    "#f7aef8",
-    "#fdc5f5",
-    "#a0ced9",
-    "#ab87ff",
-    "#c18cf9",
-    "#bc98ff",
-  ];
+
+  interface ProgrammingMap {
+    [key: string]: string;
+  }
+
+  const programming: ProgrammingMap = {
+    Linux: "#72ddf7",
+    linux: "#72ddf7",
+    rust: "#ff686b",
+    c: "#7161ef",
+    python: "#7371fc",
+    java: "#B07219",
+    javascript: "#e9ff70",
+    typescript: "#5aa9e6",
+    bash: "#aaf683",
+  };
 </script>
 
 <div class="app">
@@ -44,14 +50,17 @@
       <h2 class="capitalize">{data.article?.desc}.</h2>
     </div>
     <div class="data mt-4">
-      <p
-        class="text-sm topic"
+      <span
+        class="topic"
         style={"background-color: " +
-          colors[Math.floor(Math.random() * colors.length)] +
-          ";"}
+          programming[data.article.topic] +
+          ";" +
+          "width: " +
+          data.article.topic.length * 12 +
+          "px;" +
+          "min-width: 25px;"}>{data.article.topic}</span
       >
-        {data.article?.topic}
-      </p>
+
       <p class="text-sm">{new Date(data.article?.date)}</p>
     </div>
     <div class="text mt-10">
@@ -95,6 +104,7 @@
     color: #1c1c1c;
     width: 50px;
     margin-bottom: 5px;
+    background-color: gray;
   }
   .article {
     display: flex;

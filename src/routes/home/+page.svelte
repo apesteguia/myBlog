@@ -12,20 +12,21 @@
     "#bc98ff",
   ];
   let colors2 = ["ff92b1"];
-  let programming = [
-    "rust",
-    "c",
-    "c++",
-    "python",
-    "java",
-    "javascript",
-    "typescritp",
-    "ruby",
-    "php",
-    "sql",
-    "bash",
-    "asm",
-  ];
+  interface ProgrammingMap {
+    [key: string]: string;
+  }
+
+  const programming: ProgrammingMap = {
+    Linux: "#72ddf7",
+    linux: "#72ddf7",
+    rust: "#ff686b",
+    c: "#7161ef",
+    python: "#7371fc",
+    java: "#B07219",
+    javascript: "#e9ff70",
+    typescript: "#5aa9e6",
+    bash: "#aaf683",
+  };
 </script>
 
 <div class="app flex flex-col items-center">
@@ -47,28 +48,26 @@
               <img loading="lazy" src={d.img} alt="article" />
             </div>
             <div class="data flex flex-col gap-2">
-              <div class="title flex flex-col justify-center gap-3 -mt-5">
+              <div
+                class="title flex flex-col justify-center gap-3 -mt-5 w-auto"
+              >
                 <p class="font-bold text-2xl ml-5 capitalize hover:underline">
                   {d.title.replace(/-/g, " ")}
                 </p>
                 <div
                   class="date text-xs flex flex-col justify-center ml-5 -mt-2"
                 >
-                  {#if programming.includes(d.topic)}
-                    <span
-                      class="topic"
-                      style={"background-color: " +
-                        colors[Math.floor(Math.random() * colors.length)] +
-                        ";"}>{d.topic}</span
-                    >
-                  {:else}
-                    <span
-                      class="topic"
-                      style={"background-color: " +
-                        colors[Math.floor(Math.random() * colors2.length)] +
-                        ";"}>{d.topic}</span
-                    >
-                  {/if}
+                  <span
+                    class="topic"
+                    style={"background-color: " +
+                      programming[d.topic] +
+                      ";" +
+                      "width: " +
+                      d.topic.length * 10 +
+                      "px;" +
+                      "min-width: 20px;"}>{d.topic}</span
+                  >
+
                   <p>{new Date(d.date)}</p>
                 </div>
               </div>
@@ -97,6 +96,7 @@
       {/each}
     </div>
   </div>
+  <div class="relleno h-96" />
 </div>
 
 <style>
@@ -116,9 +116,10 @@
     align-items: center;
     justify-content: center;
     border-radius: 20px;
+    background-color: gray;
     font-weight: bold;
     color: #1c1c1c;
-    width: 50px;
+    width: 75px;
     margin-bottom: 5px;
   }
   .img {
