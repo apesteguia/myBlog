@@ -1,7 +1,9 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import { enhance } from "$app/forms";
+</script>
 
 <div class="cover">
-  <form method="POST" action="" class="login gap-10">
+  <form use:enhance method="POST" action="" class="login gap-10">
     <h1 class="text-left font-bold text-3xl gap-10 mt-5">Login</h1>
     <div class="card">
       <p>User</p>

@@ -1,12 +1,14 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import { enhance } from "$app/forms";
+</script>
 
 <div class="cubrir">
-  <form class="create">
+  <form method="POST" use:enhance action="" class="create">
     <h1 class="font-bold text-3xl">Create article</h1>
     <div class="carta">
       <p>Title</p>
       <input
-        class="capitalize"
+        name="title"
         type="text"
         placeholder="Title of the article"
         maxlength="20"
@@ -20,14 +22,15 @@
         type="text"
         class="capitalize"
         maxlength="12"
+        name="topic"
         required
       />
     </div>
     <div class="carta">
       <p>Preview</p>
       <input
-        class="capitalize"
         type="text"
+        name="preview"
         placeholder="Short preview of the article"
         maxlength="50"
         required
@@ -35,12 +38,11 @@
     </div>
     <div class="carta">
       <p>Imgage of the article</p>
-      <input type="text" placeholder="url of the img" />
+      <input name="img" type="text" placeholder="url of the img" />
     </div>
     <div class="carta">
       <p>Description</p>
       <textarea
-        class="capitalize"
         name="desc"
         id=""
         cols="10"

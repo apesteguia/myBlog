@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Article, Preview } from "../../../lib/server/firebase";
+  import Icon from "@iconify/svelte";
   export let data;
   let colors = [
     "#72ddf7",
@@ -16,9 +17,30 @@
 <div class="app">
   <div class="article">
     <div class="title flex flex-col gap-5 break-all break-words mr-10">
-      <h1 class="font-bold text-5xl capitalize">
-        {data.article?.title.replace(/-/g, " ")}
-      </h1>
+      {#if data.user === undefined}
+        <h1 class="font-bold text-5xl capitalize">
+          {data.article?.title.replace(/-/g, " ")}
+        </h1>
+      {:else}
+        <div class="edit flex items-center gap-16">
+          <h1 class="font-bold text-5xl capitalize">
+            {data.article?.title.replace(/-/g, " ")}
+          </h1>
+          <div class="controls flex gap-5">
+            <button class="flex items-center justify-center w-20"
+              ><a
+                style="w-full border: none;"
+                href={"/edit/" + data.article.title}>Edit</a
+              ></button
+            >
+            <button class="delete flex items-center justify-center w-10"
+              ><a style="w-full border: none;" href="/edit"
+                ><Icon icon="ph:trash-fill" /></a
+              ></button
+            >
+          </div>
+        </div>
+      {/if}
       <h2 class="capitalize">{data.article?.desc}.</h2>
     </div>
     <div class="data mt-4">
@@ -30,7 +52,7 @@
       >
         {data.article?.topic}
       </p>
-      <p class="text-sm">{data.article?.date}</p>
+      <p class="text-sm">{new Date(data.article?.date)}</p>
     </div>
     <div class="text mt-10">
       {@html data.article?.text}
@@ -39,6 +61,17 @@
 </div>
 
 <style>
+  .delete {
+    border: 1px solid red;
+  }
+  .delete:hover {
+    color: black;
+    background-color: red;
+  }
+  .delete:focus {
+    color: black;
+    background-color: red;
+  }
   .app {
     position: absolute;
     top: 0;

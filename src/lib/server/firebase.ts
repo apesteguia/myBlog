@@ -22,6 +22,7 @@ import {
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { error } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
+import { preview } from "vite";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA3QfX_I0MvbwxsRvKpBtYO4zHXhYfBvMg",
@@ -48,7 +49,7 @@ type Article = {
   title: string;
   text: string;
   img: string;
-  date: Date;
+  date: string;
   topic: string;
   desc: string;
 };
@@ -57,13 +58,21 @@ type Preview = {
   title: string;
   preview: string;
   img: string;
-  date: Date;
+  date: string;
   topic: string;
 };
 
 export type { Article, Preview, User };
 
 const db = {
+  editArticle: async (article: Article, pre: Preview) => {
+    await setDoc(doc(database, article.title, "data"), article);
+    await setDoc(doc(database, "articles", pre.title), pre);
+  },
+  uploadArtricle: async (pre: Preview, article: Article) => {
+    await setDoc(doc(database, article.title, "data"), article);
+    await setDoc(doc(database, "articles", pre.title), pre);
+  },
   queryPreviews: async () => {
     let articulosNuevos: Preview[] = [];
     const doc: string = "articles";

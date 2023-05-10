@@ -44,7 +44,7 @@
         <div class="article overflow-hidden flex">
           <a href={"/articles/" + d.title} class="flex items-center">
             <div class="img">
-              <img src={d.img} alt="article" />
+              <img loading="lazy" src={d.img} alt="article" />
             </div>
             <div class="data flex flex-col gap-2">
               <div class="title flex flex-col justify-center gap-3 -mt-5">
@@ -69,7 +69,7 @@
                         ";"}>{d.topic}</span
                     >
                   {/if}
-                  <p>{d.date}</p>
+                  <p>{new Date(d.date)}</p>
                 </div>
               </div>
               {#if d.preview.length > 100}
