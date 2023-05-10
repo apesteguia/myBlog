@@ -12,7 +12,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
     error = e;
     console.error(e);
   }
-  console.log(articlesPreview);
   return {
     articlesPreview,
     error: error,

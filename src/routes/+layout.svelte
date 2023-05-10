@@ -13,6 +13,14 @@
   let busqueda: string = "";
 
   onMount(async () => {
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "x") {
+        input = !input;
+      }
+      if (e.key === "Escape") {
+        input = false;
+      }
+    });
     let localData = localStorage.getItem("create");
     const data = writable(localData ? JSON.parse(localData) : []);
   });
@@ -36,12 +44,12 @@
     <a class:ocultar={input === true} href="/">How to</a>
     <a class:ocultar={input === true} href="/">Relleno</a>
     <a class:ocultar={input === true} href="/">About</a>
-    <hr />
 
     {#if !input}
       <button class="icon" on:click={setInput}>
         <Icon icon="material-symbols:search-rounded" />
       </button>
+      <p class="cntr">ctrl + x</p>
     {:else}
       <!-- svelte-ignore a11y-autofocus -->
       <input
@@ -84,6 +92,7 @@
         ><Icon icon="material-symbols:close" /></button
       >
     {/if}
+    <hr />
     <hr />
     {#if data.user === "" || data.user === undefined}
       <button class="flex items-center justify-center"
@@ -132,6 +141,16 @@
     z-index: 3;
     height: 100%;
   }
+  .cntr {
+    position: absolute;
+    margin-left: 490px;
+    background-color: #323232;
+    border-radius: 20px;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .cubrir:hover {
     background-color: transparent;
   }
@@ -165,6 +184,7 @@
     border: none;
     width: 30px;
     height: 30px;
+    margin-left: 20px;
     font-size: 1.8rem;
     border-radius: 999px;
   }

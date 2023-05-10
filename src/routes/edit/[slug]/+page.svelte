@@ -31,7 +31,7 @@
           name="title"
           type="text"
           placeholder="Title of the article"
-          maxlength="20"
+          maxlength="30"
           required
         />
       </div>
@@ -42,7 +42,7 @@
           name="preview"
           type="text"
           placeholder="Title of the article"
-          maxlength="20"
+          maxlength="60"
           required
         />
       </div>
@@ -53,7 +53,7 @@
           placeholder="Short topic"
           type="text"
           class="capitalize"
-          maxlength="12"
+          maxlength="15"
           name="topic"
           required
         />

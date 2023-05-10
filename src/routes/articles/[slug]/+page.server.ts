@@ -11,8 +11,21 @@ export const load: PageServerLoad = async ({ params }) => {
     returnedUser = user;
   }
   article = (await db.queryArticle(params.slug)) as Article;
+  console.log(article);
+  if (article === undefined) {
+    throw redirect(303, "/home");
+  }
   return {
     article,
     user,
   };
+};
+
+export const actions: Actions = {
+  default: async ({ request }) => {
+    const data = await request.formData();
+    const name = data.get("delete") as string;
+    console.log(name);
+    await db.deleteArticle(name);
+  },
 };

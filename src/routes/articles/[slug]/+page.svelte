@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import type { Article, Preview } from "../../../lib/server/firebase";
   import Icon from "@iconify/svelte";
   export let data;
@@ -39,11 +40,19 @@
                 href={"/edit/" + data.article.title}>Edit</a
               ></button
             >
-            <button class="delete flex items-center justify-center w-10"
-              ><a style="w-full border: none;" href="/edit"
-                ><Icon icon="ph:trash-fill" /></a
-              ></button
-            >
+            <form use:enhance method="POST" action="">
+              <input
+                class="hidden"
+                name="delete"
+                bind:value={data.article.title}
+                type="text"
+              />
+              <button class="delete flex items-center justify-center w-10"
+                ><a style="w-full border: none;" href="/edit"
+                  ><Icon icon="ph:trash-fill" /></a
+                ></button
+              >
+            </form>
           </div>
         </div>
       {/if}

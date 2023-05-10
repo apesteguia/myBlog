@@ -33,18 +33,12 @@
 <div class="app flex flex-col items-center">
   <div class="content mt-20 flex flex-col items-center">
     <div class="logo">
-      <h1>Become a better Tech user</h1>
-      <p class="mt-5">
-        In this blog you can learn useful Linux tips, discover applications,
-        explore new distros and stay updated with the latest from Linux and tech
-        world
-      </p>
+      <h1>All Articles</h1>
+      <p class="mt-5">here you can find all the articles ever created.</p>
     </div>
     <div class="content mt-10">
       <h2>Latest</h2>
-      {#each data.articlesPreview
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-        .slice(0, 4) as d}
+      {#each data.articlesPreview.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) as d}
         <div class="article overflow-hidden flex">
           <a href={"/articles/" + d.title} class="flex items-center">
             <div class="img">
@@ -99,9 +93,7 @@
       {/each}
     </div>
   </div>
-  <a class="font-bold hover:underline text-xl mt-10" href="/articles"
-    >View all articles</a
-  >
+
   <div class="relleno h-96" />
 </div>
 

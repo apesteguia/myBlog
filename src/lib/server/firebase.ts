@@ -65,6 +65,15 @@ type Preview = {
 export type { Article, Preview, User };
 
 const db = {
+  deleteArticle: async (article: string) => {
+    // await deleteDoc(doc(database, article));
+    try {
+      await deleteDoc(doc(database, "articles", article));
+      await deleteDoc(doc(database, article, "data"));
+    } catch (e) {
+      console.error(e);
+    }
+  },
   editArticle: async (article: Article, pre: Preview) => {
     await setDoc(doc(database, article.title, "data"), article);
     await setDoc(doc(database, "articles", pre.title), pre);
