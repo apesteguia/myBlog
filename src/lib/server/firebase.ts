@@ -53,7 +53,6 @@ type Article = {
   topic: string;
   desc: string;
 };
-
 type Preview = {
   title: string;
   preview: string;
@@ -61,10 +60,33 @@ type Preview = {
   date: string;
   topic: string;
 };
+type Comment = {
+  user: string;
+  comment: string;
+  date: string;
+  likes: number;
+};
 
-export type { Article, Preview, User };
+export type { Article, Preview, User, Comment };
 
 const db = {
+  newComment: async (comment: Comment, article: string) => {
+    try {
+      await addDoc(collection(database, article + "@comments"), comment);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  getComments: async (article: string) => {
+    let comments: Comment[] = [];
+    const doc: string = article + "@comments";
+    const querySnapshot = await getDocs(collection(database, doc));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data() as Comment;
+      comments = [...comments, data];
+    });
+    return comments;
+  },
   deleteArticle: async (article: string) => {
     // await deleteDoc(doc(database, article));
     try {

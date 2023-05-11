@@ -36,73 +36,76 @@
 
 <div class="main">
   <div class="navbar w-full flex items-center justify-center gap-8">
-    <a href="/home" class="font-bold text-3xl">My blog</a>
-    <hr />
+    <div class="centro">
+      <a href="/home" class="font-bold text-3xl mr-3">My blog</a>
+      <hr />
 
-    <a class:ocultar={input === true} href="/">News</a>
-    <a class:ocultar={input === true} href="/">Linux</a>
-    <a class:ocultar={input === true} href="/">How to</a>
-    <a class:ocultar={input === true} href="/">Relleno</a>
-    <a class:ocultar={input === true} href="/">About</a>
+      <a class:ocultar={input === true} href="/">News</a>
+      <a class:ocultar={input === true} href="/">Linux</a>
+      <a class:ocultar={input === true} href="/">How to</a>
+      <a class:ocultar={input === true} href="/">About</a>
+      <hr />
+      <hr />
+      <hr />
 
-    {#if !input}
-      <button class="icon" on:click={setInput}>
-        <Icon icon="material-symbols:search-rounded" />
-      </button>
-      <p class="cntr">ctrl + x</p>
-    {:else}
-      <!-- svelte-ignore a11y-autofocus -->
-      <input
-        bind:value={busqueda}
-        autofocus
-        type="text"
-        placeholder="Find articles"
-      />
-      {#if busqueda !== ""}
-        <button class="cubrir" on:click={setInput} />
-        <button class="icon close" on:click={resetearBusqueda}
+      {#if !input}
+        <button class="icon" on:click={setInput}>
+          <Icon icon="material-symbols:search-rounded" />
+        </button>
+        <p class="cntr">ctrl + x</p>
+      {:else}
+        <!-- svelte-ignore a11y-autofocus -->
+        <input
+          bind:value={busqueda}
+          autofocus
+          type="text"
+          placeholder="Find articles"
+        />
+        {#if busqueda !== ""}
+          <button class="cubrir" on:click={setInput} />
+          <button class="icon close" on:click={resetearBusqueda}
+            ><Icon icon="material-symbols:close" /></button
+          >
+          <div class="resultados">
+            {#each data.articlesPreview.filter((a) => a.title
+                  .replace(/-/g, " ")
+                  .includes(busqueda) || a.preview.includes(busqueda)) as d}
+              <a on:click={setInput} href={"/articles/" + d.title} class="res">
+                <p class=" text-lg capitalize ml-2">
+                  {@html d.title
+                    .replace(/-/g, " ")
+                    .replace(
+                      new RegExp(busqueda, "gi"),
+                      (match) => `<b>${match}</b>`
+                    )}
+                </p>
+                <p class="ml-5">
+                  {@html d.preview
+                    .replace(
+                      new RegExp(busqueda, "gi"),
+                      (match) => `<b>${match}</b>`
+                    )
+                    .substring(0, 40)}
+                </p>
+              </a>
+            {/each}
+          </div>
+        {/if}
+        <button class="icon" on:click={setInput}
           ><Icon icon="material-symbols:close" /></button
         >
-        <div class="resultados">
-          {#each data.articlesPreview.filter((a) => a.title
-                .replace(/-/g, " ")
-                .includes(busqueda) || a.preview.includes(busqueda)) as d}
-            <a on:click={setInput} href={"/articles/" + d.title} class="res">
-              <p class=" text-lg capitalize ml-2">
-                {@html d.title
-                  .replace(/-/g, " ")
-                  .replace(
-                    new RegExp(busqueda, "gi"),
-                    (match) => `<b>${match}</b>`
-                  )}
-              </p>
-              <p class="ml-5">
-                {@html d.preview
-                  .replace(
-                    new RegExp(busqueda, "gi"),
-                    (match) => `<b>${match}</b>`
-                  )
-                  .substring(0, 40)}
-              </p>
-            </a>
-          {/each}
-        </div>
       {/if}
-      <button class="icon" on:click={setInput}
-        ><Icon icon="material-symbols:close" /></button
-      >
-    {/if}
-    <hr />
-    <hr />
-    {#if data.user === "" || data.user === undefined}
-      <button class="flex items-center justify-center"
-        ><a style="border: none;" href="/login">Log in</a></button
-      >
-    {:else}
-      <button class="flex items-center justify-center"
-        ><a style="border: none;" href="/create">Create</a></button
-      >
-    {/if}
+      <hr />
+      {#if data.user === "" || data.user === undefined}
+        <button class="flex items-center justify-center"
+          ><a style="border: none;" href="/login">Log in</a></button
+        >
+      {:else}
+        <button class="flex items-center justify-center"
+          ><a style="border: none;" href="/create">Create</a></button
+        >
+      {/if}
+    </div>
   </div>
   <slot />
 </div>
@@ -115,16 +118,25 @@
     height: 55px;
     background-color: #0f0f0f;
     z-index: 8;
+    display: flex;
+    align-items: center;
+  }
+  .centro {
+    display: flex;
+    width: 800px;
+    align-items: center;
+    gap: 30px;
   }
   .resultados {
-    width: 380px;
-    margin-left: -10px;
+    width: 550px;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
     background-color: #1c1c1c;
     z-index: 10;
     position: absolute;
     top: 60px;
-    border: 1px solid grey;
+    border: 1px solid rgb(47, 47, 47);
     overflow: hidden;
   }
   .ocultar {
@@ -147,6 +159,7 @@
     background-color: #323232;
     border-radius: 20px;
     width: 70px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,12 +172,13 @@
   }
   .res {
     height: 80px;
-    display: flex;
-    border-bottom: 1px solid grey;
-    flex-direction: column;
+    border-bottom: 1px solid rgb(47, 47, 47);
     word-break: break-all;
-    justify-content: center;
+    display: grid;
     transition: 0.3s;
+  }
+  .res > :nth-child(2) {
+    margin-top: -20px;
   }
   .res:hover {
     background-color: #353535;
@@ -172,7 +186,7 @@
   }
   input {
     height: 40px;
-    width: 380px;
+    width: 550px;
     margin-right: 10px;
     z-index: 9;
     position: absolute;
@@ -184,7 +198,6 @@
     border: none;
     width: 30px;
     height: 30px;
-    margin-left: 20px;
     font-size: 1.8rem;
     border-radius: 999px;
   }
@@ -194,7 +207,7 @@
     z-index: 9;
     width: 20px;
     height: 20px;
-    margin-left: 300px;
+    margin-left: 500px;
   }
   button {
     width: 100px;
